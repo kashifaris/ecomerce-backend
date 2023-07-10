@@ -34,9 +34,7 @@ const { User } = require("./model/User.js");
 
 server.use(express.static(path.resolve(__dirname,"build")));
 
-server.get('*', (req, res) =>
-  res.sendFile(path.resolve('build', 'index.html'))
-);
+
 
 
 server.use(
