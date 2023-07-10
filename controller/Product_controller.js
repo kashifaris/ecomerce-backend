@@ -4,11 +4,13 @@ exports.createProduct = async (req, res) => {
   //this product we have to get from the API body
 
   const product = new Product(req.body);
+  console.log("inside crreate products")
   try {
     const doc = await product.save();
-    res.status(201).json(doc);
     console.log(doc);
+    res.status(201).json(doc);
   } catch (err) {
+    console.log(err);
     res.status(400).json(err);
   }
 };
@@ -59,9 +61,21 @@ exports.fetchAllProducts = async (req, res) => {
 exports.fetchProductById = async (req, res) => {
   //this product we have to get from the API body
   const {id} = req.params;
-  
+
   try {
     const product = await Product.findById(id)
+    res.status(200).json(product);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
+exports.updateProduct = async (req, res) => {
+  //this product we have to get from the API body
+  const {id} = req.params;
+  
+  try {
+    const product = await Product.findByIdAndUpdate(id,req.body,{new:true})
     res.status(200).json(product);
   } catch (err) {
     res.status(400).json(err);

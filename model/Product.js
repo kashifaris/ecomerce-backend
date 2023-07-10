@@ -48,7 +48,8 @@ const productSchema= new Schema({
     },
     deleted: {
         type:Boolean,
-        required:true
+        required:true,
+        default:false
     },
 })
 
@@ -63,4 +64,4 @@ productSchema.set('toJSON',{
     transform:(doc,ret)=>{delete ret._id}
 })
 
-exports.Product = mongoose.model("Products",productSchema);
+exports.Product = mongoose.model("Product",productSchema);
