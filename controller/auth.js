@@ -68,3 +68,11 @@ exports.checkAuth = async (req, res) => {
       res.sendStatus(401)
     }
 };
+
+module.exports.destroySession=(req,res)=>{
+  req.logout((err)=>{
+      if(err) return;
+  });
+  req.flash('success', 'logged out successfull');
+  return res.json({message:"sucess"});
+}

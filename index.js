@@ -24,6 +24,7 @@ const opts = {};
 opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.JWT_SECRET_KEY; // TODO: should not be in code;
 
+
 const userRouter = require("./routes/Users");
 const authRouter = require("./routes/auth");
 const cartRouter = require("./routes/Cart");
@@ -31,11 +32,7 @@ const orderRouter = require("./routes/Order");
 const { User } = require("./model/User.js");
 
 
-
 server.use(express.static(path.resolve(__dirname,"build")));
-
-
-
 
 server.use(
   session({
@@ -60,6 +57,9 @@ server.use("/auth", authRouter.router);
 server.use("/users", isAuth(), userRouter.router);
 server.use("/cart", isAuth(), cartRouter.router);
 server.use("/orders", isAuth(), orderRouter.router);
+server.get('*', (req, res) =>
+  res.sendFile(path.resolve('build', 'index.html'))
+);
 
 //passport local strategy
 passport.use(
@@ -73,8 +73,10 @@ passport.use(
       try {
         const user = await User.findOne({ email: email }).exec();
         if (!user) {
-          done(null, false, { message: "no such user email" });
+          console.log('inside if');
+          return done(null, false, { message: "no such user email" });
         }
+        console.log(user);
         crypto.pbkdf2(
           password,
           user.salt,
