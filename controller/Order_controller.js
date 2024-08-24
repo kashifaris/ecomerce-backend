@@ -15,8 +15,8 @@ exports.fetchUserOrder = async (req, res) => {
 };
 
 exports.fetchAllOrders = async (req, res) => {
-  //this product we have to get from the API body
-console.log("inside fetch all orders")
+
+  console.log("inside fetch all orders")
   let query = Order.find({});
   let totalOrderQuery = Order.find({});
 

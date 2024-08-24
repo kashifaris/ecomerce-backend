@@ -2,6 +2,7 @@ const { User } = require("../model/User");
 const crypto = require("crypto");
 const { sanatizeUser } = require("../services/common");
 const jwt = require("jsonwebtoken");
+const { Console } = require("console");
 const SECRET_KEY = "SECRET_KEY";
 
 exports.createUser = async (req, res) => {
@@ -69,10 +70,21 @@ exports.checkAuth = async (req, res) => {
     }
 };
 
-module.exports.destroySession=(req,res)=>{
+exports.destroySession=(req,res)=>{
   req.logout((err)=>{
       if(err) return;
   });
   req.flash('success', 'logged out successfull');
-  return res.json({message:"sucess"});
+  return res.json({message:"success"});
 }
+
+
+exports.logout = async (req, res) => {
+  console.log("logout controller called");
+  res
+    .cookie('jwt', null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    })
+    .sendStatus(200)
+};
